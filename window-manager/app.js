@@ -16,9 +16,6 @@ exports.refresh = () => {
 }
 
 ipcRenderer.on('daemons-windows-get-all-response', (event, args) => {
-    console.log(args);
-    console.info("Refresh completed.");
-
     $("#running").html("");
     $("#zombie").html("");
     $("#suspended").html("");
@@ -35,41 +32,39 @@ ipcRenderer.on('daemons-windows-get-all-response', (event, args) => {
         // handle parsing
         var i = 2;
         data = args.data;
-        while(args.data[i] != undefined) {
-            console.log(args.data[i]);
-
-            var now = Date.now();
-
+        while(args.data[i] !== undefined) {
             // handle positioning
-            if(args.data[i].state == "Running") {
-                $("#running").append("<br /><p class='waves-effect waves-light' onclick='wm.readMore("+i+")' id='window"+i+"'>"+args.data[i].title+"<span class='purple-text'>#"+args.data[i].id+"</span><br /><small>Created <b>"+msToHuman(now - args.data[i].birth)+"</b> ago.<br />Created by <b>"+args.data[i].spawner+"</b>.</small></p>");
+            if(args.data[i].state === "Running") {
+                appendWindow("running", i, data[i]);
                 running++;
                 $("#running-ct").text(running);
-            } else if(args.data[i].state == "Suspended") {
-                $("#suspended").append("<br /><p class='waves-effect waves-light' onclick='wm.readMore("+i+")' id='window"+i+"'>"+args.data[i].title+"<span class='purple-text'>#"+args.data[i].id+"</span><br /><small>Created <b>"+msToHuman(now - args.data[i].birth)+"</b> ago.<br />Created by <b>"+args.data[i].spawner+"</b>.<br /><span style='text-transform: uppercase;'>"+args.data[i].reason+"</span></small></p>");
+            } else if(args.data[i].state === "Suspended") {
+                appendWindow("suspended", i, data[i]);
                 suspended++;
                 $("#suspended-ct").text(suspended);
-            } else if(args.data[i].state == "Zombie") {
-                $("#zombie").append("<br /><p class='waves-effect waves-light' onclick='wm.readMore("+i+")' id='window"+i+"'>"+args.data[i].title+"<span class='purple-text'>#"+args.data[i].id+"</span><br /><small>Created <b>"+msToHuman(now - args.data[i].birth)+"</b> ago.<br />Created by <b>"+args.data[i].spawner+"</b>.<br /><span style='text-transform: uppercase;'>"+args.data[i].reason+"</span></small></p>");
+            } else if(args.data[i].state === "Zombie") {
+                appendWindow("zombie", i, data[i]);
                 zombie++;
                 $("#zombie-ct").text(zombie);
-            } else if(args.data[i].state == "Exited") {
-                $("#exited").append("<br /><p class='waves-effect waves-light' onclick='wm.readMore("+i+")' id='window"+i+"'>"+args.data[i].title+"<span class='purple-text'>#"+args.data[i].id+"</span><br /><small>Created <b>"+msToHuman(now - args.data[i].birth)+"</b> ago.<br />Created by <b>"+args.data[i].spawner+"</b>.<br /><span style='text-transform: uppercase;'>"+args.data[i].reason+"</span></small></p>");
+            } else if(args.data[i].state === "Exited") {
+                appendWindow("exited", i, data[i]);
                 exited++;
                 $("#exited-ct").text(exited);
-            } else if(args.data[i].state == "Terminated") {
-                $("#terminated").append("<br /><p class='waves-effect waves-light' onclick='wm.readMore("+i+")' id='window"+i+"'>"+args.data[i].title+"<span class='purple-text'>#"+args.data[i].id+"</span><br /><small>Created <b>"+msToHuman(now - args.data[i].birth)+"</b> ago.<br />Created by <b>"+args.data[i].spawner+"</b>.<br /><span style='text-transform: uppercase;'>"+args.data[i].reason+"</span></small></p>");
+            } else if(args.data[i].state === "Terminated") {
+                appendWindow("terminated", i, data[i]);
                 terminated++;
                 $("#terminated-ct").text(terminated);
-            } else {
-                console.warn("Could not handle:");
-                console.log(args.data[i]);
-            }
+            } 
 
             i++;
         }
     }
 })
+
+function appendWindow(state, id, data){
+    var now = Date.now();
+    $("#"+state).append("<br /><p class='waves-effect waves-light' onclick='wm.readMore("+id+")' id='window"+id+"'>"+data.title+"<span class='purple-text'>#"+data.id+"</span><br /><small>Created <b>"+msToHuman(now - data.birth)+"</b> ago.<br />Created by <b>"+data.spawner+"</b>.<br /><span style='text-transform: uppercase;'>"+data.reason+"</span></small></p>");
+}
 
 exports.readMore = (id) => {
     console.log(data[id]);
@@ -129,7 +124,7 @@ function msToHuman(ms) {
     }
 
     if(m > 60) {
-        var h = Math.floor(m/60);
+        var h = Math.floor(s/3600);
         suf = "h";
     } else {
         return m+suf;
