@@ -1,0 +1,23 @@
+{
+  "name": "webtop",
+  "version": "1.0.0",
+  "description": "Improving the desktop using the web.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/maxbycodeorg/webtop",
+  "keywords": [
+    "desktop",
+    "web"
+  ],
+  "author": "maxbycode",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  },
+  "dependencies": {
+    "hammerjs": "^2.0.8",
+    "jquery": "^3.2.1"
+  }
+}

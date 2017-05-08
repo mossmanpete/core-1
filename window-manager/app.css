@@ -1,0 +1,32 @@
+/* Window Manager stylesheet */
+body {
+    background: rgba(0,0,0,0.80);
+    color: white;
+    margin: 15px;
+}
+
+div.statebar {
+    padding: 5px;
+    background: rgba(255,255,255,0.10);
+    padding-left: 15px;
+}
+
+p.cat-title {
+    text-transform: uppercase;
+}
+
+p.cat-title > i.material-icons {
+    font-size: 24px;
+}
+
+div.windows > p {
+    margin-left: 35px;
+    padding: 5px;
+    transition: all 1s;
+    border: none;
+}
+
+p.window-selected {
+    transition: all 1s;
+    border: 1.5px solid white;
+}

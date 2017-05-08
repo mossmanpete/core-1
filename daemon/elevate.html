@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Elevation - Webtop</title>
+
+    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="../css/daemon.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  </head>
+  <body class="empty">
+      <div id="loading">
+        <div class="progress empty grey">
+          <div class="indeterminate red"></div>
+        </div>
+        <p class="center-align">Loading request</p>
+      </div>
+      <div id="content" style="display:none;">
+        <p class="header-icon"><i class="material-icons left red-text">feedback</i> Elevate</p>
+        <h5><span id="header">Allow <b>Webtop Window Manager</b> to close <b>Google Docs</b>?</span><br /><br /><small id="specific">At <b>9:32 PM</b>, the app <b>Webtop Window Manager</b> requested to suspend <b>Google Docs</b>, allow or deny the request below.</small></h5>
+
+        <div class="right">
+          <a href="#" onclick="perm.denyElevate();" class="btn-flat waves-effect waves-light transparent red-text">Deny</a>
+          <a href="#" onclick="perm.allowElevate();" class="btn-flat waves-effect waves-light transparent red-text">Allow</a>
+        </div>
+      </div>
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('../renderer.js')
+    window.$ = window.jQuery = require('../js/jquery.js');
+    var perm = require('./permission.js');
+    require('./app-window.js');
+    require('../js/materialize.min.js');
+  </script>
+</html>

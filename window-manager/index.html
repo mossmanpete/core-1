@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Window Manager</title>
+
+    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="./app.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body class="empty">
+
+    <a href="#" onclick="wm.refresh();" class="btn-flat waves-effect waves-light purple-text"><i class="material-icons left">refresh</i> Refresh</a>
+
+    <div class="row">
+      <div class="col s6">
+        <h5 class="cat-title"><i class="material-icons left purple-text">power_settings_new</i> Running (<span class="purple-text" id="running-ct">0</span>)</h5>
+
+        <div id="running" class="windows">
+          
+        </div>
+
+        <h5 class="cat-title"><i class="material-icons left purple-text">snooze</i> Suspended (<span class="purple-text" id="suspended-ct">0</span>)</h5>
+
+        <div id="suspended" class="windows">
+
+        </div>
+
+        <h5 class="cat-title"><i class="material-icons left purple-text">bug_report</i> Zombie (<span class="purple-text" id="zombie-ct">0</span>)</h5>
+
+        <div id="zombie" class="windows">
+
+        </div>
+
+        <h5 class="cat-title"><i class="material-icons left purple-text">close</i> Exited (<span class="purple-text" id="exited-ct">0</span>)</h5>
+
+        <div id="exited" class="windows">
+
+        </div>
+
+        <h5 class="cat-title"><i class="material-icons left purple-text">new_releases</i> Terminated (<span class="purple-text" id="terminated-ct">0</span>)</h5>
+
+        <div id="terminated" class="windows">
+
+        </div>
+      </div>
+
+      <div class="col s6">
+        <h5 class="cat-title"><i class="material-icons left purple-text">info</i> <span id="rm-title">Select an app for more detail</span></h5>
+
+        <p><i class="material-icons left purple-text">history</i> <b>Age</b>: <span id="rm-age"></span></p>
+        <p><i class="material-icons left purple-text">account_box</i> <b>Creator</b>: <span id="rm-creator"></span></p>
+        <p><i class="material-icons left purple-text">perm_device_information</i> <b>Status</b>: <span id="rm-status"></span></p>
+
+        <p><i class="material-icons left purple-text">call_made</i> <b>Zombie Check Sent</b>: <span id="rm-zc-send-remaining">0ms</span> ago</p>
+        <div class="progress grey">
+          <div class="determinate purple" id="rm-zc-send" style="width: 0%"></div>
+        </div>
+
+        <p><i class="material-icons left purple-text">call_received</i> <b>Zombie Check Received</b>: <span id="rm-zc-received-ago">0ms</span> ago</p>
+        <div class="progress grey">
+          <div class="determinate purple" id="rm-zc-receive" style="width: 0%"></div>
+        </div>
+
+        <p style="display: none;" id="rm-zc-warn"><i class="material-icons left purple-text">call_missed</i> Zombie check is not available for this window due to its window status.</p>
+        <p style="display: none;" id="rm-exit"><i class="material-icons left purple-text">block</i> <b>Exit Reason</b>: <span id="rm-exit-msg"></span></p>
+
+      </div>
+    </div>
+
+
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('../renderer.js')
+    window.$ = window.jQuery = require('../js/jquery.js');
+    var wm = require('./app.js');
+    var aw = require('../daemon/app-window.js');
+    $(document).ready(() => {
+      setTimeout(init, 1000);
+    })
+
+    function init() {
+      wm.setEnv(aw.getEnv());
+      wm.refresh();
+    }
+    require('../js/materialize.min.js');
+  </script>
+</html>

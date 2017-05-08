@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tras</title>
+
+    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="./app.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body style="width: 100vw; height: 100vh">
+
+    <div class="controls blue">
+      <a onclick="document.querySelector('webview').goBack();" class="btn-flat transparent waves-effect black-text waves-light"><i class="material-icons black-text">arrow_back</i></a>
+      <a onclick="document.querySelector('webview').reload();" class="btn-flat transparent waves-effect black-text waves-light"><i class="material-icons  black-text">refresh</i></a>
+      <a onclick="document.querySelector('webview').goForward();" class="btn-flat transparent waves-effect black-text waves-light"><i class="material-icons  black-text">arrow_forward</i></a>
+      <a id="url" class="btn-flat transparent waves-effect black-text waves-light">...</a>
+    </div>
+
+    <div class="progress blue">
+      <div class="indeterminate black"></div>
+    </div>
+
+    <webview id="webview" src="https://tras.pw" style="width: 100vw; height: 100vh;"></webview>
+
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('../renderer.js')
+    window.$ = window.jQuery = require('../js/jquery.js');
+    var aw = require('../daemon/app-window.js');
+
+    $(document).ready(() => {
+      $("#webview").on('did-start-loading', () => {
+        $(".progress > .indeterminate").show();
+      });
+
+      $("#webview").on('did-stop-loading', () => {
+        $(".progress > .indeterminate").hide();
+        $("#url").text(document.querySelector('webview').getURL())
+      })
+    })
+
+    require('../js/materialize.min.js');
+  </script>
+</html>

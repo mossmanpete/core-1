@@ -1,2 +1,2 @@
-# core
-The core Webtop application
+# webtop
+Improving the desktop using the web.

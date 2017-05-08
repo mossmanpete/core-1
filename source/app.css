@@ -1,0 +1,13 @@
+.controls {
+    height: 48px;
+    max-height: 48px;
+    padding: 5px;
+    padding-left: 15px;
+    background: black;
+}
+
+.progress {
+    margin: 0px;
+    padding: 0px;
+    background: rgba(255,255,255,0.1);
+}

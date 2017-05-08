@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webtop</title>
+
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/daemon.css">
+  </head>
+  <body>
+      <h2>W<small>EBTOP</small></h2>
+      <h5><span id="humor">One moment...</span><br /><small id="specific">Hang tight, Webtop is preparing...</small></h5>
+      
+      <div class="progress grey">
+        <div class="indeterminate red"></div>
+      </div>
+      <p><small id="countdown">0s elapsed</small></p>
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    window.$ = window.jQuery = require('./js/jquery.js');
+    require('./js/daemon-init.js');
+
+    var wd = require('./daemon/windows.js');
+    console.log(wd.getAll())
+    require('./js/materialize.min.js');
+
+    
+  </script>
+</html>

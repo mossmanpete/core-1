@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webtop</title>
+
+    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="../css/daemon.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body class="empty">
+
+    <div class="deck top">
+      <p><b>Webtop</b> - Your Deck</p>
+    </div>
+      
+    <div class="row">
+
+        <div onclick="deck.launch('Tras', 'tras');" class="col s3 waves-effect waves-light center-align">
+
+            <i class="material-icons blue-text">forum</i>
+            <h5>Tras</h5>
+
+        </div>
+
+        <div onclick="deck.launch('Window Manager', 'window-manager');" class="col s3 waves-effect waves-light center-align">
+
+            <i class="material-icons purple-text">dashboard</i>
+            <h5>Window Manager</h5>
+
+        </div>
+
+        <div onclick="deck.launch('Settings', 'settings');" class="col s3 waves-effect waves-light center-align">
+
+            <i class="material-icons red-text">settings</i>
+            <h5>Settings</h5>
+
+        </div>
+
+        <div onclick="deck.launch('Source Code', 'source');" class="col s3 waves-effect waves-light center-align">
+
+            <i class="material-icons white-text">code</i>
+            <h5>Source Code</h5>
+
+        </div>
+
+    </div>
+
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('../renderer.js')
+    window.$ = window.jQuery = require('../js/jquery.js');
+    var deck = require('./deck.js');
+    require('../js/materialize.min.js');
+  </script>
+</html>
