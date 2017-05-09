@@ -74,15 +74,15 @@ ipcMain.on('daemons-permission-request-windowreader', (event, arg) => {
   // relay response back to initial window (DEBUG ONLY)
   console.log(arg);
 
-  window = BrowserWindow.fromId(arg.passthrough.args.id);
+  dialog = BrowserWindow.fromId(arg.passthrough.args.id);
 
   if(arg.state){
-    window.webContents.send('daemons-windows-get-all-response', {"permission": true, "data": windowsdaemon.getAll()});
+    dialog.webContents.send('daemons-windows-get-all-response', {"permission": true, "data": windowsdaemon.getAll()});
   } else {
-    window.webContents.send('daemons-windows-get-all-response', {"permission": false})
+    dialog.webContents.send('daemons-windows-get-all-response', {"permission": false})
   }
 
-  windowsdaemon.close(arg.passthrough.dialog);
+  windowsdaemon.kill(arg.passthrough.dialog, 3);
 })
 
 
@@ -104,14 +104,14 @@ ipcMain.on('launch-app', (event, arg) => {
 ipcMain.on('daemons-permission-request-swapapp', (event, arg) => {
   console.log(arg);
 
-  window = BrowserWindow.fromId(arg.passthrough.args.id);
+  dialog = BrowserWindow.fromId(arg.passthrough.args.id);
 
   if(arg.state) {
     lapp = windowsdaemon.create(BrowserWindow, {"title": arg.passthrough.args.launching, "file": "index.html", "ctx": arg.passthrough.args.ctx, "width": 800, "height": 600, "frame": true, "spawner": arg.passthrough.args.app});
-    window.webContents.send('launch-app-state', {"launched": true, "args": arg.passthrough.args});
+    dialog.webContents.send('launch-app-state', {"launched": true, "args": arg.passthrough.args});
   } else {
-    window.webContents.send('launch-app-state', {"launched": false, "args": arg.passthrough.args});
+    dialog.webContents.send('launch-app-state', {"launched": false, "args": arg.passthrough.args});
   }
 
-  windowsdaemon.close(arg.passthrough.dialogid);
+  windowsdaemon.kill(arg.passthrough.dialogid, 3);
 })

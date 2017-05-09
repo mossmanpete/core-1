@@ -6,7 +6,8 @@
 }
 
 .progress {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
+    background: rgb(70,70,70);
     background: rgba(255,255,255,0.1);
 }

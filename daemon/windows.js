@@ -21,13 +21,13 @@ exports.create = function(bw, app){
 
 
     // make sure this is numeric
-    if(Number(app.width) == NaN){ 
+    if(isNaN(Number(app.width))){ 
         width = 800;
     } else {
         width = Number(app.width);
     }
 
-    if(Number(app.height) == NaN){ 
+    if(isNaN(Number(app.height))){ 
         height = 600;
     } else {
         height = Number(app.height);
@@ -74,36 +74,24 @@ exports.create = function(bw, app){
 
 }
 
-exports.zombie = function(id) {
-    if(windows[id].window == undefined){
-        return {"state": "error", "message": "Unknown window"};
-    } else {
-        windows[id].window.hide();
-        windows[id].state = "Zombie";
-        windows[id].reason = "Zombified by function call.";
-        return {"state": "success"};
-    }
-}
+exports.kill = function(id, level) {
+    var lvlstate = {1: "Zombie", 2: "Terminated", 3: "Exited"};
+    var lvlreason = {1: "Zombified by function call.", 2: "Terminated by function call.", 3: "Exited by function call."};
 
-exports.terminate = function(id) {
-    if(windows[id].window == undefined){
+    if(windows[id].window === undefined){
         return {"state": "error", "message": "Unknown window"};
     } else {
-        windows[id].window.destroy();
-        windows[id].state = "Terminated";
-        windows[id].reason = "Terminated by function call.";
-        return {"state": "success"};
-    }
-}
+        if(level === 1){
+            windows[id].window.hide();
+        } else if(level === 2) {
+            windows[id].window.destory();
+        } else {
+            windows[id].window.close();
+        }
 
-exports.close = function(id) {
-    if(windows[id].window == undefined){
-        return {"state": "error", "message": "Unknown window"};
-    } else {
-        windows[id].window.close();
-        windows[id].state = "Exited";
-        windows[id].reason = "Closed by function call."
-        return {"state": "success"};
+        windows[id].state = lvlstate[level];
+        windows[id].reason = lvlreason[level];
+
     }
 }
 
@@ -112,7 +100,7 @@ ipcMain.on('daemon-window-close', (events, args) => {
     windows[args.args.id].window = null;
     windows[args.args.id].state = "Exited";
     // make sure we don't overwrite any other messages prior to this always declared message
-    if(windows[args.args.id].state == ""){
+    if(windows[args.args.id].state === ""){
         windows[args.args.id].reason = "Window sent close signal."
     }
 });
@@ -120,7 +108,7 @@ ipcMain.on('daemon-window-close', (events, args) => {
 // Zombie checking
 // not sponsored by The Walking Dead
 ipcMain.on('daemon-window-alive-callback', (events, args) => {
-    if(windows[args.id] == undefined) {
+    if(windows[args.id] === undefined) {
         console.log("Received a zombie check for Window ID#"+args.id+" but it does not relate to any active window.");
     } else {
         windows[args.id].state = "Running";
@@ -132,10 +120,10 @@ var zombiecheck = setInterval(checkZombies, 15000);
 
 function checkZombies(){
     var i = 2;
-    while(windows[i] != undefined) {
+    while(windows[i] !== undefined) {
         var now = Date.now();
-        if(windows[i].state == "Running" || windows[i].state == "Zombie") {
-            if(now - windows[i].zombiesent > 30000 && windows[i].zombiereceived == 0 && windows[i].window != null){
+        if(windows[i].state === "Running" || windows[i].state === "Zombie") {
+            if(now - windows[i].zombiesent > 30000 && windows[i].zombiereceived === 0 && windows[i].window !== null){
                 // 30s elapsed and still no initial received -- terminate
                 windows[i].window.close();
                 windows[i].window = null;
@@ -144,7 +132,7 @@ function checkZombies(){
                 windows[i].zombiereceived = 0;
                 windows[i].reason = "Failed to respond to initial zombie check.";
                 console.log("Window #"+i+" was terminated due to no respone on initial.");
-            } else if(now - windows[i].zombiesent > 30000 && now - windows[i].zombiereceived > 30000 && windows[i].zombiesent + windows[i].zombiereceived > 100000 && windows[i].window != null){
+            } else if(now - windows[i].zombiesent > 30000 && now - windows[i].zombiereceived > 30000 && windows[i].zombiesent + windows[i].zombiereceived > 100000 && windows[i].window !== null){
                 // 30s elapsed since send and receive -- zombie & resend
                 windows[i].state = "Zombie";
                 windows[i].reason = "Failed to respond to zombie check in timely manner.";

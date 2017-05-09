@@ -1,20 +1,21 @@
 /* Daemon stylesheet */
 body {
+    background: rgb(70,70,70);
     background: rgba(0,0,0,0.80);
     color: white;
     margin: 15px;
 }
 
 body.empty, .progress.empty  {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
-div#content {
+#content {
     padding: 15px;
 }
 
-div.deck {
+.deck {
     padding: 5px;
     background: rgba(255,255,255,0.10);
     padding-left: 15px;

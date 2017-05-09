@@ -20,16 +20,18 @@ ipcRenderer.on('daemons-permission-request', (event, arg) => {
 })
 
 
-exports.denyElevate = function() {
-    $("#specific").html("This request has been <b>denied</b>.<br />You will be returned back to your original app shortly.");
-    $("div.right").fadeOut();
-    ipcRenderer.send(arg.return, {"source": arg.source, "endpoint": arg.endpoint, "message": arg.message, "help": arg.help, "state": false, "passthrough": arg.passthrough});
-}
+exports.handleElevate = function(state) {
+    if(state == "allow"){
+        var s = "allowed";
+        var st = true;
+    } else {
+        var s = "denied";
+        var st = false;
+    }
 
-exports.allowElevate = function() {
-    $("#specific").html("This request has been <b>allowed</b>.<br />You will be returned back to your original app shortly.");
+    $("#specific").html("This request has been <b>"+s+"</b>.<br />You will be returned back to your original app shortly.");
     $("div.right").fadeOut();
-    ipcRenderer.send(arg.return, {"source": arg.source, "endpoint": arg.endpoint, "message": arg.message, "help": arg.help, "state": true, "passthrough": arg.passthrough});
+    ipcRenderer.send(arg.return, {"source": arg.source, "endpoint": arg.endpoint, "message": arg.message, "help": arg.help, "state": st, "passthrough": arg.passthrough});
 }
 
 function escape(larg){
