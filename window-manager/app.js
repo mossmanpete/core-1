@@ -22,11 +22,7 @@ ipcRenderer.on('daemons-windows-get-all-response', (event, args) => {
     $("#exited").html("");
     $("#terminated").html("");
 
-    var running = 0;
-    var suspended = 0;
-    var zombie = 0;
-    var exited = 0;
-    var terminated = 0;
+    var running = suspended = zombie = exited = terminated = 0;
 
     if(args.permission) {
         // handle parsing
@@ -78,7 +74,7 @@ exports.readMore = (id) => {
     $("#rm-status").text(data[id].state);
     $("#rm-creator").text(data[id].spawner);
 
-    if(data[id].state == "Running" || data[id].state == "Zombie"){
+    if(data[id].state === "Running" || data[id].state === "Zombie"){
         $("#rm-zc-send-remaining").text(((now - data[id].zombiesent))+" ms");
         $("#rm-zc-received-ago").text((now - data[id].zombiereceived)+" ms");
 
@@ -99,10 +95,6 @@ exports.readMore = (id) => {
 
         $("#rm-exit-msg").text(data[id].reason);
     }
-
-
-
-
     
 }
 
