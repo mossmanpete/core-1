@@ -1,6 +1,6 @@
 /* Window Manager stylesheet */
 body {
-    background: rgb(70,70,70);
+    background: rgb(20,20,20);
     background: rgba(0,0,0,0.80);
     color: white;
     margin: 15px;
@@ -8,15 +8,16 @@ body {
 
 .statebar {
     padding: 5px;
+    background: rgb(50,50,50);
     background: rgba(255,255,255,0.10);
     padding-left: 15px;
 }
 
-p.cat-title {
+.cat-title {
     text-transform: uppercase;
 }
 
-p.cat-title > i.material-icons {
+.cat-title > .material-icons {
     font-size: 24px;
 }
 

@@ -1,9 +1,9 @@
+const {ipcRenderer} = require('electron')
+
 $(document).ready(function(){
     console.log("ready");
 
     var launchtimer = setInterval(incrementTimer, 1000);
-
-    const {ipcRenderer} = require('electron')
 
     ipcRenderer.on('daemons-windows-get-all-response', (event, arg) => {
         console.log(arg) // prints "pong"

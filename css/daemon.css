@@ -17,6 +17,7 @@ body.empty, .progress.empty  {
 
 .deck {
     padding: 5px;
+    background: rgb(50,50,50);
     background: rgba(255,255,255,0.10);
     padding-left: 15px;
 }
@@ -33,6 +34,7 @@ body.empty, .progress.empty  {
 
 .col.s3:hover {
     transition: all 1s;
+    background: rgb(50,50,50);
     background: rgba(255,255,255,0.10)
 }
 

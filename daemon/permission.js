@@ -1,5 +1,7 @@
 const {ipcRenderer} = require('electron')
 let arg;
+var s;
+var st;
 
 // handle request
 ipcRenderer.on('daemons-permission-request', (event, arg) => {
@@ -21,12 +23,12 @@ ipcRenderer.on('daemons-permission-request', (event, arg) => {
 
 
 exports.handleElevate = function(state) {
-    if(state == "allow"){
-        var s = "allowed";
-        var st = true;
+    if(state === "allow"){
+        s = "allowed";
+        st = true;
     } else {
-        var s = "denied";
-        var st = false;
+        s = "denied";
+        st = false;
     }
 
     $("#specific").html("This request has been <b>"+s+"</b>.<br />You will be returned back to your original app shortly.");
